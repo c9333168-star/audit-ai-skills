@@ -1,0 +1,5 @@
+interface:
+  display_name: "数据清洗 · Cleaning"
+  short_description: "R 数据审计、清洗、日志与质量报告"
+policy:
+  allow_implicit_invocation: false
