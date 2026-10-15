@@ -6,7 +6,7 @@ description: >-
   multi-file join relationship diagnosis, cleaning logs, or data-quality reports.
   Prefer audit-then-clean with R tidyverse via Rscript + JSON, and a Quarto .qmd report when
   a report is wanted.
-  Triggers: 数据清洗/数据审计/缺失值/重复值/异常值/字段标准化/多文件连接诊断/清洗日志/数据质量报告.
+  Triggers: 数据清洗/数据审计/缺失值/重复值/异常值/字段标准化/多文件连接诊断/清洗日志/数据质量报告/洗一下这张表/这两个文件能连起来吗.
 metadata:
   compatibility: claude-code, codex, workbuddy, zcode, opencode, trae, qoder, qwenwork, mavis, dsh
   related-skills: chen-tidy-data
@@ -172,7 +172,7 @@ cat(jsonlite::toJSON(result, auto_unbox = TRUE, pretty = FALSE, force = TRUE))
 
 - **清洗数据**：原始文件名加 `_cleaned`，不覆盖原文件。
 - **清洗日志**：步骤、规则、影响行列数、用户决策点。
-- **质量问题报告**：优先 `.qmd`，默认 `format: PrettyTypst-typst` → 一份 PDF 文档（Quarto 扩展已 vendor 在 `_extensions/PrettyTypst/`，离线可用；字体链 Ubuntu → Microsoft YaHei → PingFang SC → Noto Sans CJK SC，中文跨平台确定性渲染）。**渲染布局：把 `_extensions/` 整个复制到报告工作目录、与实例化后的 `.qmd` 同级再渲染**（Quarto 在含点开头的目录如 `.zcode` 下不做向上扩展发现；同目录布局全环境可用）。仅当用户点名要幻灯片时，才用 `format: revealjs`（不依赖扩展）。渲染规则：**Git Bash 下先 `env -u LC_CTYPE -u LANG -u LC_ALL quarto render <文件>.qmd`**（LC_CTYPE=C.UTF-8 使 R 启动 locale 切换失败，chunk 内中文被转义成 `<U+XXXX>` 而解析报错）；PowerShell/cmd 直接 `quarto render`。`.qmd` 写完后同样剥 BOM。构建图表依赖 `ggplot2 + gridExtra`（勿依赖 `patchwork`）。骨架见 `templates/cleaning_report_skeleton.qmd`，真实数据实例见 `examples/cleaning_report.qmd`。注：SkillHub 分发包按平台校验裁剪（平台禁止二进制与 .R 脚本上传，纯文档发行）——报告模板、vendored 扩展、端到端示例、16 项回归脚本与展示图完整版以 GitHub 仓库为准。
+- **质量问题报告**：优先 `.qmd`，默认 `format: PrettyTypst-typst` → 一份 PDF 文档（Quarto 扩展已 vendor 在 `_extensions/PrettyTypst/`，离线可用；字体链 Ubuntu → Microsoft YaHei → PingFang SC → Noto Sans CJK SC，中文跨平台确定性渲染）。**渲染布局：把 `_extensions/` 整个复制到报告工作目录、与实例化后的 `.qmd` 同级再渲染**（Quarto 在含点开头的目录如 `.zcode` 下不做向上扩展发现；同目录布局全环境可用）。仅当用户点名要幻灯片时，才用 `format: revealjs`（不依赖扩展）。渲染规则：**Git Bash 下先 `env -u LC_CTYPE -u LANG -u LC_ALL quarto render <文件>.qmd`**（LC_CTYPE=C.UTF-8 使 R 启动 locale 切换失败，chunk 内中文被转义成 `<U+XXXX>` 而解析报错）；PowerShell/cmd 直接 `quarto render`。`.qmd` 写完后同样剥 BOM。构建图表依赖 `ggplot2 + gridExtra`（勿依赖 `patchwork`）。骨架见 `templates/cleaning_report_skeleton.qmd`，真实数据实例见 `examples/cleaning_report.qmd`。注：本仓库版本即完整版（含报告模板、vendored 扩展、端到端示例、16 项回归脚本与展示图）。
 - **问题清单**：主键不明、N:N 风险、口径冲突、异常值策略、需人工确认的类别映射。
 - **数据字典**：字段名、类型、含义、取值范围、缺失率、清洗规则。
 
@@ -189,7 +189,7 @@ cat(jsonlite::toJSON(result, auto_unbox = TRUE, pretty = FALSE, force = TRUE))
 | 中文乱码 | 任一环节用了非 UTF-8（如 PowerShell `Out-File` 默认编码）；全程 UTF-8 无 BOM |
 | `.qmd` 渲染失败/R chunk 报 `unexpected '<'`（代码里出现 `<U+XXXX>`） | Git Bash 的 `LC_CTYPE=C.UTF-8` 使 R 启动 locale 切换失败，knitr 把 chunk 内中文转义；`env -u LC_CTYPE -u LANG -u LC_ALL quarto render` 或改用 PowerShell/cmd |
 | `.qmd` 渲染失败/解析 YAML 失败 | `.qmd` 也带 BOM；`.R` 与 `.qmd` 写完后都剥 BOM 再 `quarto render` |
-| `quarto render` 报 `Unable to read the extension` | PrettyTypst 扩展缺失（SkillHub 分发包不含二进制）：把 GitHub 仓库的 `_extensions/` 整个复制到报告工作目录，或联网 `quarto install extension nrennie/PrettyTypst` |
+| `quarto render` 报 `Unable to read the extension` | PrettyTypst 扩展缺失：把本技能的 `_extensions/` 整个复制到报告工作目录，或联网 `quarto install extension nrennie/PrettyTypst` |
 | "font family not found" / ggplot2 中文变方块 | 图形设备缺 CJK 字体：不要给 `theme(base_family=...)` 强加中文字体；用系统默认即可，需中文字体时用 `Sys.setlocale`/`showtext` 或 PNG 设备 |
 | `(p1) \| (p2)` 报错 | 需 `patchwork`（常未装）；双图并排用 `gridExtra::grid.arrange(p1, p2, ncol = 2)` |
 | `list.files()` 找不到明知存在的文件 | locale 非 UTF-8 时（R 启动报 `Setting LC_CTYPE=C.UTF-8 failed`）中文文件名条目被静默丢弃；脚本/模板一律用 ASCII 文件名，或改用 `file.exists()`/`Sys.glob()` 定位 |
