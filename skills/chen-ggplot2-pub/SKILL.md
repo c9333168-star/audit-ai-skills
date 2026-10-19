@@ -1,5 +1,6 @@
 ---
 name: chen-ggplot2-pub
+author: 陈胜滨历险记
 description: |
   出版级 ggplot2 图表：在 R 中生成、修复或审查达到论文/报告出版标准的统计图。
   当用户要求画图、作图、出图、生成图表、论文 figure、按审稿意见改图（字太小/标签重叠/配色乱）、

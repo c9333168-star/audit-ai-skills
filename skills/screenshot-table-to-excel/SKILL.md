@@ -1,5 +1,6 @@
 ---
 name: screenshot-table-to-excel
+author: 陈胜滨历险记
 description: 把截图/照片里的表格还原成 Excel。当用户发来一张表格截图（微信截图、手机拍的台账/明细/报表）并说「做成 Excel / 转成表格 / 整理成表格」时使用。覆盖极小分辨率截图的放大识读、原表列宽不足导致的文字截断复原、企业全称核实、以及用 openpyxl 生成忠实还原版式的 xlsx。
 agent_created: true
 ---

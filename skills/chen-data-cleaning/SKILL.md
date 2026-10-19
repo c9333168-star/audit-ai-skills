@@ -1,5 +1,6 @@
 ---
 name: chen-data-cleaning
+author: 陈胜滨历险记
 description: >-
   Use when a user asks to clean, audit, or prepare tabular data (CSV/Excel/RDS/Parquet) —
   missing-value, duplicate, or outlier diagnosis and treatment, field/column standardization,
