@@ -5,3 +5,4 @@ __pycache__/
 *.bak
 *.bak.*
 node_modules/
+preflight_names.local.json

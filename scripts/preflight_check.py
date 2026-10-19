@@ -17,16 +17,24 @@
 """
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
-# 硬项名单:出现在公开仓库即需清洗(来源:白名单 §五/§六 实测)
-PERSON_NAMES = [
-    "田川", "信永中和", "少年怒", "审计小哥", "卡兹克", "陈奕蔚", "钱会计",
-]
+# 硬项名单:出现在公开仓库即需清洗。真人与机构名不进公开仓库——
+# 从 scripts/preflight_names.local.json(.gitignore 排除)运行时加载;缺省为空并提示。
+def _load_person_names() -> list:
+    local = Path(__file__).resolve().parent / "preflight_names.local.json"
+    if not local.is_file():
+        print(f"[提示] 未找到 {local.name},真人姓名扫描跳过(名单文件不入库,按 README 本地自建)。")
+        return []
+    data = json.loads(local.read_text(encoding="utf-8"))
+    return list(data.get("person_names", []))
+
+PERSON_NAMES = _load_person_names()
 
 # 疑似项名单:引用未随仓库分发的技能;SKILL.md 里带「外部技能,未随本仓库分发」
 # 一类注释的引用是合法的,所以只报告不阻断。注意只列仓库外技能,仓库自身的技能名不算
