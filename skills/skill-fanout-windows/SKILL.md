@@ -1,6 +1,6 @@
 ---
 name: skill-fanout-windows
-author: 陈胜滨历险记
+author: 陈胜滨
 description: 把一个技能包一次性装进本机所有 AI 工具的 skills 目录（Claude Code / Codex / WorkBuddy / Trae / Qoder / Qwen / Zcode / Mavis 等），用 Windows 目录联接（junction）做单点维护。当用户说"让所有 AI 都能用上这个技能""技能要装到每个工具""一次装好多端可用""技能目录怎么共享"时使用。含 Windows 下建链接的权限坑位与可用替代方案。
 agent_created: true
 ---

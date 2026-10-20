@@ -1,6 +1,6 @@
 ---
 name: xlsx-batch-text-surgery
-author: 陈胜滨历险记
+author: 陈胜滨
 description: 大批量 Excel（xlsx）的精确文案/文本修订与验证。适用于「批量改一批 Excel 里的某句话」「全库替换旧表述」「清理存量文件里过时的措辞」，以及「验证上千个 xlsx 里是否还残留某文本」。核心是手术式补丁（幂等、备份先行、只动字符串格、句式级自校验）替代全链重生成，配 zipfile 快扫做全库验证。当任务涉及 100+ 个 xlsx 的文本批量修订或存在性核查时使用。
 agent_created: true
 ---
